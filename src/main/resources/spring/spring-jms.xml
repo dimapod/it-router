@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <import resource="classpath*:spring/spring-jms-commons.xml" />
+
+    <!-- Definition of the JMS queue -->
+    <bean id="injectionDestination" class="org.hornetq.jms.client.HornetQQueue">
+        <constructor-arg index="0" value="INJECTION"/>
+    </bean>
+
+    <!-- JMS Senders -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="hornetConnectionFactory"/>
+    </bean>
+
+    <!-- JMS Consumers -->
+    <jms:listener-container
+            connection-factory="hornetConnectionFactory"
+            acknowledge="transacted"
+            concurrency="1-5">
+        <jms:listener destination="INJECTION" ref="jmsManagerListener"/>
+    </jms:listener-container>
+
+</beans>
+    
