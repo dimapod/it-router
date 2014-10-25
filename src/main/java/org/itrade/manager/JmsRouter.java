@@ -21,7 +21,7 @@ public class JmsRouter {
 
     @PostConstruct
     private void init() {
-        mapDestination.put("INJECTION", "SEMANTIC");
+        mapDestination.put("INJECTION", "SEMANTIC_IN");
     }
 
     public void routeJmsMessage(Message message, String fromQueue) {
